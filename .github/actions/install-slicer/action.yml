@@ -1,0 +1,10 @@
+name: install-slicer
+author: Sebastien Goll (Kitware SAS)
+description: Install 3D Slicer
+runs:
+  using: composite
+  steps:
+    - name: Install Slicer on WindowsOS
+      if: ${{ runner.os == Windows}}
+      run: echo 'Hello world, I am running on windows'
+      shell: bash

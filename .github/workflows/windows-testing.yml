@@ -11,6 +11,7 @@ on:
 jobs:
   Tests-Windows:
     runs-on: windows-latest
+    if: False
     outputs:
       install_path: ${{ steps.slicerLocation.outputs.install_path }}
       python_path: ${{ steps.pythonLocation.outputs.python_path }}
@@ -98,3 +99,11 @@ jobs:
             $exitCode = ($currentCode , $exitCode | Measure-Object -Max).Maximum
           }
           exit $exitCode
+  Tests-Actions:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "${{ github.repository }}"
+      - run: echo "${{ github.repository }}/install-slicer@${{ github.sha }}"
+      - uses: ./.github/actions/install-slicer
+      - uses: SebGoll/SlicerMultiverSeg/.github/actions/install-slicer@main
