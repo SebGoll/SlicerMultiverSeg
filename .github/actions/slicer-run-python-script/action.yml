@@ -16,3 +16,9 @@ runs:
   steps:
     - run: echo "Hello world"
       shell: bash
+    - run: echo "${{inputs.slicer_dir}}"
+      shell: bash
+    - run: echo "${{inputs.script}}"
+      shell: bash
+    - run: echo "${{inputs.additional_arguments}}"
+      shell: bash
