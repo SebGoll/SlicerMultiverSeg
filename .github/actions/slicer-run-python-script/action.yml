@@ -10,11 +10,9 @@ inputs:
     required: true
   additional_arguments:
     description: Additional arguments for Slicer executable
-    default: ""
-
-
+    default: ''
 runs:
   using: composite
   steps:
-    - run: "${{ inputs.slicer_dir }}/Slicer.exe" --no-splash --testing --python-script ${{ inputs.script }} ${{ inputs.additional_arguments }}
+    - run: '${{ inputs.slicer_dir }}/Slicer.exe' --no-splash --testing --python-script ${{ inputs.script }} ${{ inputs.additional_arguments }}
       shell: bash
