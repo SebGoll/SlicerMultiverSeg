@@ -102,13 +102,5 @@ jobs:
   Tests-Actions:
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - run: |
-          echo "${{ github.repository }}"
-          echo "${{ github.repository }}/install-slicer@${{ github.sha }}"
-        name: Echos
-      - uses: ./.github/actions/install-slicer
-        name: Local run
-      - uses: SebGoll/SlicerMultiverSeg/.github/actions/install-slicer@main
-        name: Online run
+      - uses: ${{ github.repository }}/.github/actions/install-slicer@${{ github.sha }}
+        name: Run action
