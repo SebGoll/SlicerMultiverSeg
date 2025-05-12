@@ -4,21 +4,12 @@ description: Install 3D Slicer
 inputs:
   version:
     description: Version of Slicer available at https://community.chocolatey.org/packages/3dslicer#versionhistory
-    default: 'latest'
+    default: ''
 
 runs:
   using: composite
   steps:
-    - name: Set version flag
-      id: version_flag
-      run: |
-        if [ "${{ inputs.version }}" == "latest"  ]; then
-          echo "version_flag=" >> $GITHUB_OUTPUT
-        else
-          echo "version_flag=--version=${{ inputs.version }}" >> $GITHUB_OUTPUT
-        fi
-      shell: bash
     - name: Install Slicer on WindowsOS
       if: ${{runner.os == 'Windows'}}
-      run: choco install 3dslicer -y ${{ steps.version_flag.outputs.version_flag}}
+      run: choco install 3dslicer -y --version=${{ inputs.version }} --allowdowngrade
       shell: bash
