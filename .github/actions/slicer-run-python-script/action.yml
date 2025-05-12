@@ -14,15 +14,8 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: echo "Hello world"
-      shell: bash
-    - run: echo "${{inputs.slicer_dir}}"
-      shell: bash
-    - run: echo "${{inputs.script}}"
-      shell: bash
-    - run: echo "${{inputs.additional_arguments}}"
-      shell: bash
-    - run: "$SLICER_EXE" --testing
+    - run: |
+        "$SLICER_EXE" --testing --python-script "${{ inputs.script }}" ${{ inputs.additional_arguments }}
       shell: bash
       env:
         SLICER_EXE: ${{inputs.slicer_dir}}/Slicer.exe
