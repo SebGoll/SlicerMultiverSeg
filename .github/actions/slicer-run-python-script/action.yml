@@ -22,5 +22,5 @@ runs:
       shell: bash
     - run: echo "${{inputs.additional_arguments}}"
       shell: bash
-    - run: "${{inputs.script}}/Slicer.exe" --testing
+    - run: ${{inputs.slicer_dir}}/Slicer.exe --testing
       shell: bash
