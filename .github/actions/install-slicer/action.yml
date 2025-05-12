@@ -5,6 +5,6 @@ runs:
   using: composite
   steps:
     - name: Install Slicer on WindowsOS
-      if: ${{ runner.os == Windows}}
+      if: ${{ runner.os == 'Windows'}}
       run: echo 'Hello world, I am running on windows'
       shell: bash
