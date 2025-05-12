@@ -15,7 +15,7 @@ runs:
         if [ "${{ inputs.version }}" == "latest"  ]; then
           echo "version_flag=" >> $GITHUB_OUTPUT
         else
-          echo "version_flag='--version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          echo "version_flag='--version=${{ inputs.version }}'" >> $GITHUB_OUTPUT
         fi
       shell: bash
     - name: Install Slicer on WindowsOS
