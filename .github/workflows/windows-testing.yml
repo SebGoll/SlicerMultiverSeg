@@ -93,3 +93,9 @@ jobs:
           SLICER_FOLDER: ${{ steps.slicer_install.outputs.slicer_folder }}
       - run: ls -la
         shell: bash
+      - name: Test script
+        uses: ./.github/actions/slicer-run-python-script
+        with:
+          script: './.github/python_scripts/test_install_ext.py'
+          slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
+
