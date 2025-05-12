@@ -16,33 +16,15 @@ jobs:
       install_path: ${{ steps.slicerLocation.outputs.install_path }}
       python_path: ${{ steps.pythonLocation.outputs.python_path }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Install Slicer
-        run: choco install 3dslicer -y
-      - name: Get slicer executable
-        id: slicerLocation
-        run: |
-          $folder = Get-ChildItem -Path "C:\ProgramData\slicer.org" -Filter "Slicer.exe" -Recurse -ErrorAction SilentlyContinue -Force |
-          Select-Object -First 1 
-          
-          if ($folder) {
-            $installPath = $folder.FullName
-            Write-Host "Found Slicer at $installPath"
-            # Set the output
-            "install_path=$installPath" >> $env:GITHUB_OUTPUT
-          } else {
-            Write-Host "Slicer not found."
-            exit 1
-          }
-      - name: Get python env
-        id: pythonLocation
-        run: |
-          $pythonPath = Resolve-Path "${{ steps.slicerLocation.outputs.install_path }}/../bin/PythonSlicer.exe"
-          echo "$pythonPath"
-          "python_path=$pythonPath" >> $env:GITHUB_OUTPUT
+        id: slicer_install
+        uses: ./.github/actions/install-slicer
       - name: Install SlicerPytorch module
         id: slicerpytorch
         run: |
-          $path = "${{ steps.slicerLocation.outputs.install_path }}"
+          $path = "${{ steps.slicer_install.outputs.slicer_folder }}/Slicer.exe"
           $process = Start-Process -FilePath "$path" -ArgumentList "--testing", "--no-splash", "--no-main-window", "--python-code `"slicer.app.extensionsManagerModel().installExtensionFromServer('PyTorch')`"" -Wait -RedirectStandardOutput "log_std.txt" -RedirectStandardError "log_err.txt" -PassThru
           echo "Standard output:"
           Get-Content log_std.txt
@@ -50,15 +32,15 @@ jobs:
           Get-Content log_err.txt
           $exitCode = $process.ExitCode
           echo "Exit code: $exitCode"
-          $folder = Get-ChildItem -Path "${{ steps.slicerLocation.outputs.install_path }}/../slicer.org" -Include qt-*modules -Recurse | Select-Object -First 1
+          $folder = Get-ChildItem -Path "${{ steps.slicer_install.outputs.slicer_folder }}/slicer.org" -Include qt-*modules -Recurse | Select-Object -First 1
           $folder = $folder.FullName
           echo "PyTorch module installed at $folder"
           "slicerPyTorch=$folder" >> $env:GITHUB_OUTPUT
           exit $exitCode
       - name: Install pytorch
         run: |
-          $path = "${{ steps.slicerLocation.outputs.install_path }}"
-          $pytorchmodule = "${{ steps.slicerpytorch.outputs.slicerPyTorch }}"
+          $path = "${{ steps.slicer_install.outputs.slicer_folder }}"
+          $pytorchmodule = "${{ steps.slicer_install.outputs.slicer_folder }}/bin/PythonSlicer.exe"
           $process = Start-Process -FilePath "$path" -ArgumentList "--testing", "--no-splash", "--no-main-window","--additional-module-paths `"$pytorchmodule`"" ,"--python-code `"import PyTorchUtils;PyTorchUtils.PyTorchUtilsLogic().installTorch(askConfirmation=False,torchvisionVersionRequirement='>=0.20')`"" -Wait -RedirectStandardOutput "log_std.txt" -RedirectStandardError "log_err.txt" -PassThru
           echo "Standard output:"
           Get-Content log_std.txt
@@ -69,7 +51,7 @@ jobs:
           exit $exitCode
       - name: Install multiverseg
         run: |
-          $path = "${{ steps.pythonLocation.outputs.python_path }}"
+          $path = "${{ steps.slicer_install.outputs.slicer_folder }}/bin/PythonSlicer.exe"
           & $path -m pip install "git+https://github.com/halleewong/MultiverSeg.git"
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -80,7 +62,7 @@ jobs:
           $process = Start-Process -FilePath "$path" -ArgumentList "--testing", "--no-splash", "--no-main-window","--additional-module-paths `"$modulepath`"" ,"--python-code `"from SegmentEditorMultiverSegLib import InstallLogic as i;i._downloadModel(i.MULTIVERSEG_FILE_NAME, i.MULTIVERSEG_DOWNLOAD_URL);i._downloadModel(i.SCRIBBLEPROMPT_FILE_NAME, i.SCRIBBLEPROMPT_DOWNLOAD_URL)`"" -Wait -RedirectStandardOutput "log_std.txt" -RedirectStandardError "log_err.txt" -PassThru
       - name: Test
         run: |
-          $path = "${{ steps.slicerLocation.outputs.install_path }}"
+          $path = "${{ steps.slicer_install.outputs.slicer_folder }}/Slicer.exe"
           $modulepath= "${{ github.workspace }}/MultiverSeg"
           $pytorchmodule = "${{ steps.slicerpytorch.outputs.slicerPyTorch }}"
           $testPath = "$modulepath/Testing/Python"
