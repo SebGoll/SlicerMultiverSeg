@@ -102,5 +102,7 @@ jobs:
   Tests-Actions:
     runs-on: windows-latest
     steps:
-      - uses: '${{ github.repository }}/.github/actions/install-slicer@${{ github.sha }}'
-        name: Run action
+      - uses: ./.github/actions/install-slicer
+      - uses: ./.github/actions/install-slicer
+        with:
+          version : 5.8.1

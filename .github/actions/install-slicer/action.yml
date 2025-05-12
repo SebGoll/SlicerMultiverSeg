@@ -1,10 +1,21 @@
 name: install-slicer
 author: Sebastien Goll (Kitware SAS)
 description: Install 3D Slicer
+inputs:
+  version:
+    description: Version of Slicer
+    default: 'latest'
+
 runs:
   using: composite
   steps:
+    - if: ${{inputs.version == 'latest' }}
+      run: echo aaaaa
+      shell: bash
+    - if: ${{ inputs.version != 'latest' }}
+      run: echo bbbb
+      shell: bash
     - name: Install Slicer on WindowsOS
       if: ${{ runner.os == 'Windows'}}
-      run: echo 'Hello world, I am running on windows'
+      run: choco install 3dslicer -y
       shell: bash
