@@ -87,7 +87,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-slicer
         id: slicer_install
-        if: false
       - run: echo "$SLICER_FOLDER"
         shell: bash
         env:
@@ -98,5 +97,5 @@ jobs:
         uses: ./.github/actions/slicer-run-python-script
         with:
           script: './.github/python_scripts/test_install_ext.py'
-          slicer_dir: "jaaj"
+          slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
 
