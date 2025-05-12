@@ -92,3 +92,4 @@ jobs:
         env:
           SLICER_FOLDER: ${{ steps.slicer_install.outputs.slicer_folder }}
       - run: ls -la
+        shell: bash
