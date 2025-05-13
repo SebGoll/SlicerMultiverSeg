@@ -95,6 +95,12 @@ jobs:
           slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
           extensions_name: PyTorch SlicerPythonTestRunner
       - name: Install Python dependencies
+        uses: ./.github/actions/slicer-install-python-packages
+        with:
+          slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
+          additional_arguments: --no-main-window --no-splash
+          package_names: 'torchvision>=0.10' torch git+https://github.com/halleewong/MultiverSeg.git
+      - name: Install Python dependencies
         uses: ./.github/actions/slicer-run-python-script
         with:
           script: './.github/python_scripts/install_python_dependencies.py'
