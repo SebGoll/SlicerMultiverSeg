@@ -101,4 +101,12 @@ jobs:
           script: './.github/python_scripts/install_python_dependencies.py'
           slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
           additional_arguments: --no-main-window --no-splash
+      - name: Run tests
+        uses: ./.github/actions/slicer-run-python-tests
+        with:
+          slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
+          additional_arguments: --testing --no-splash
+          tests_root_path: './MultiverSeg/Testing/Python'
+          tests_name_pattern: '*TestCase.py'
+          module_paths: './MultiverSeg'
 
