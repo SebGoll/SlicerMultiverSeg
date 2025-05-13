@@ -15,7 +15,7 @@ runs:
   using: composite
   steps:
     - run: |
-        "$SLICER_EXE" --testing --python-script "${{ inputs.script }}" ${{ inputs.additional_arguments }}
+        "$SLICER_EXE" --python-script "${{ inputs.script }}" ${{ inputs.additional_arguments }}
       shell: bash
       env:
         SLICER_EXE: ${{inputs.slicer_dir}}/Slicer.exe
