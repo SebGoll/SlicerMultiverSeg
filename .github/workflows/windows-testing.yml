@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - unix-os-slicer-install
   pull_request:
     branches:
       - main
