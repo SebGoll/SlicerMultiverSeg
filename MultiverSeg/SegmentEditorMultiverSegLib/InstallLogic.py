@@ -48,7 +48,7 @@ class InstallLogic:
         modelPath = cls.CKPT_DIR.joinpath(cls.SCRIBBLEPROMPT_FILE_NAME)
 
         if not modelPath.is_file():
-            if slicer.util.confirmOkCancelDisplay("The ScribblePrompt model is required. Confirm to download (16MB)."):
+            if (not cls.INTERACTIVE_MODE) or slicer.util.confirmOkCancelDisplay("The ScribblePrompt model is required. Confirm to download (16MB)."):
 
                 cls._downloadModel(cls.SCRIBBLEPROMPT_FILE_NAME, cls.SCRIBBLEPROMPT_DOWNLOAD_URL)
 
