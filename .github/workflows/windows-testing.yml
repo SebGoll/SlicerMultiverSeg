@@ -40,5 +40,15 @@ jobs:
           tests_root_path: './MultiverSeg/Testing/Python'
           tests_name_pattern: '*TestCase.py'
           module_paths: './MultiverSeg'
+  Install-Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "I am the linux runner"
+        shell: bash
+  Install-MacOS:
+    runs-on: macos-latest
+    steps:
+      - run: echo "I am the mac runner"
+        shell: bash
 
 
