@@ -45,10 +45,20 @@ jobs:
     steps:
       - run: echo "I am the linux runner"
         shell: bash
+      - uses: actions/checkout@v4
+        name: Checkout
+      - uses: ./.github/actions/install-slicer
+        id: slicer_install
+        name: Install Slicer
   Install-MacOS:
     runs-on: macos-latest
     steps:
       - run: echo "I am the mac runner"
         shell: bash
+      - uses: actions/checkout@v4
+        name: Checkout
+      - uses: ./.github/actions/install-slicer
+        id: slicer_install
+        name: Install Slicer
 
 

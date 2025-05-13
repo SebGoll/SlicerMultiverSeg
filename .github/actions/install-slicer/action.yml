@@ -23,3 +23,10 @@ runs:
         folder=$(find "C:/ProgramData/slicer.org" -maxdepth 1 -type d -name Slicer* -exec stat --format "%Y %n" {} + |sort -nr | head -n1 | cut -d' ' -f2-)
         echo "slicer_folder=$folder" >> $GITHUB_OUTPUT
 
+
+    - if: ${{ runner.os == 'Linux' }}
+      run: echo "Slicer installation for Linux supposed to be there"
+      shell: bash
+    - if: ${{ runner.os == 'macOS' }}
+      run: echo "Slicer installation for Mac supposed to be there"
+      shell: bash
