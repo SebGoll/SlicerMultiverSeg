@@ -25,8 +25,8 @@ runs:
 
 
     - if: ${{ runner.os == 'Linux' }}
-      run: echo "Slicer installation for Linux supposed to be there"
+      run: brew install --cask slicer
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
-      run: echo "Slicer installation for Mac supposed to be there"
+      run: brew install --cask slicer
       shell: bash
