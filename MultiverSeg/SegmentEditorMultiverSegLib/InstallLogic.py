@@ -174,7 +174,7 @@ Slicer will need to be restarted before continuing the install.""", "PyTorch ext
     def installTorch(cls):
         import PyTorchUtils
         torchLogic = PyTorchUtils.PyTorchUtilsLogic()
-        res = torchLogic.installTorch(askConfirmation=cls.INTERACTIVE_MODE)
+        res = torchLogic.installTorch(askConfirmation=cls.INTERACTIVE_MODE, torchvisionVersionRequirement=">=0.10")
 
         if res is None:
             raise RuntimeError("Failed to install torch and torchvision. "
