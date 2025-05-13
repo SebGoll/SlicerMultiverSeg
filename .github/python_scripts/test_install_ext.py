@@ -1,4 +1,5 @@
-
+from MultiverSeg.SegmentEditorMultiverSegLib import InstallLogic
 
 if __name__ == '__main__':
-    print('hello world')
+
+    installer = InstallLogic()
