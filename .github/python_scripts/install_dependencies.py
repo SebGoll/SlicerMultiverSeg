@@ -4,14 +4,12 @@ from MultiverSeg.SegmentEditorMultiverSegLib import InstallLogic, DependenciesLo
 
 if __name__ == '__main__':
 
-    ckpt_installer = InstallLogic()
-    dep_installer = DependenciesLogic()
+    DependenciesLogic.INTERACTIVE_MODE = False
+    InstallLogic.INTERACTIVE_MODE = False
 
-    dep_installer.installPyTorchExtension()
+    DependenciesLogic.installPyTorchExtensionIfNeeded()
+    DependenciesLogic.installTorchIfNeeded()
+    DependenciesLogic.installMultiverSegIfNeeded()
+    InstallLogic.downloadCheckpointsIfNeeded()
 
-    slicer.util.restart()
-
-    dep_installer.installTorchIfNeeded()
-    dep_installer.installMultiverSegIfNeeded()
-
-    ckpt_installer.downloadCheckpointsIfNeeded()
+    slicer.util.quit()
