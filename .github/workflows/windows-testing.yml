@@ -98,4 +98,5 @@ jobs:
         with:
           script: './.github/python_scripts/install_dependencies.py'
           slicer_dir: ${{ steps.slicer_install.outputs.slicer_folder }}
+          additional_arguments: --no-main-window --no-splash
 
