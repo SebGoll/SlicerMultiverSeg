@@ -43,8 +43,5 @@ runs:
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
       run: |
-        echo "Not implemented yet"
-        echo "File for install: ${{ steps.installer.outputs.slicer_installer }}"
-        cd installer
-        ls -la
+        hdiutil attach ${{ steps.installer.outputs.slicer_installer }}
       shell: bash
