@@ -13,8 +13,18 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Download installer
+      run: |
+        "${{ github.action_path }}/downloader.sh" ${{ runner.os }}
+      shell: bash
+    - name: Get installer file
+      id: installer
+      run: |
+        installer=$(find "./installer" -maxdepth 1 -name "Slicer*" | head -n1 | xargs realpath)
+        echo "slicer_installer=$installer" >> $GITHUB_OUTPUT
+      shell: bash
     - if: ${{runner.os == 'Windows'}}
-      run: choco install 3dslicer -y --version=${{ inputs.version }} --allowdowngrade
+      run: ${{ steps.installer.outputs.slicer_installer }} //S
       shell: bash
     - if: ${{runner.os == 'Windows'}}
       id: slicer_folder
@@ -22,11 +32,10 @@ runs:
       run: |
         folder=$(find "C:/ProgramData/slicer.org" -maxdepth 1 -type d -name Slicer* -exec stat --format "%Y %n" {} + |sort -nr | head -n1 | cut -d' ' -f2-)
         echo "slicer_folder=$folder" >> $GITHUB_OUTPUT
-
-
-    - if: ${{ runner.os == 'Linux' }}
-      run: brew install --cask slicer
+    - name: Download installer
+      if: ${{ runner.os == 'Linux' }}
+      run: echo "Not implemented yet"
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
-      run: brew install --cask slicer
+      run: echo "Not implemented yet"
       shell: bash
