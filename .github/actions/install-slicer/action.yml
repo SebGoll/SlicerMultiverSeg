@@ -43,5 +43,6 @@ runs:
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
       run: |
-        YES | hdiutil attach ${{ steps.installer.outputs.slicer_installer }}
+        MOUNT_POINT=$( hdiutil attach ${{ steps.installer.outputs.slicer_installer }} -nobrowse -verbose -acceptlicense | grep -o '/Volumes/[^ ]*')
+        echo $MOUNT_POINT
       shell: bash
