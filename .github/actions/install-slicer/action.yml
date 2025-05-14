@@ -43,5 +43,5 @@ runs:
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
       run: |
-        hdiutil attach ${{ steps.installer.outputs.slicer_installer }}
+        YES | hdiutil attach ${{ steps.installer.outputs.slicer_installer }}
       shell: bash
