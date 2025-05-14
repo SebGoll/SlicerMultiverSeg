@@ -13,6 +13,9 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Setting the permission
+      run: chmod +x "${{ github.action_path }}/downloader.sh"
+      shell: bash
     - name: Download installer
       run: |
         "${{ github.action_path }}/downloader.sh" ${{ runner.os }}
@@ -34,8 +37,14 @@ runs:
         echo "slicer_folder=$folder" >> $GITHUB_OUTPUT
     - name: Download installer
       if: ${{ runner.os == 'Linux' }}
-      run: echo "Not implemented yet"
+      run: |
+        echo "Not implemented yet"
+        echo "File for install: ${{ steps.installer.outputs.slicer_installer }}"
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
-      run: echo "Not implemented yet"
+      run: |
+        echo "Not implemented yet"
+        echo "File for install: ${{ steps.installer.outputs.slicer_installer }}"
+        cd installer
+        ls -la
       shell: bash

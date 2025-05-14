@@ -6,8 +6,6 @@ elif [ $1 == "macOS" ]; then
   PACK_OS="macosx"
 fi
 
-echo $PACK_OS
-
 PACK_ARCH="amd64"
 BASE_URL="https://slicer-packages.kitware.com/api/v1"
 
@@ -26,7 +24,10 @@ mkdir -p installer
 
 HEADER_TMP=$(mktemp)
 curl -# -D "$HEADER_TMP" "$BASE_URL/item/$PACK_ID/download" -o file
+echo "$HEADER_TMP"
 CONTENT_DISPOSITION=$(grep -i '^Content-Disposition:' "$HEADER_TMP")
+echo "$CONTENT_DISPOSITION"
 FILENAME=$(echo "$CONTENT_DISPOSITION" | sed -n 's/.*filename="\?\([^"]*\)"\?.*/\1/p')
+echo "$FILENAME"
 mv file "installer/$FILENAME"
 
