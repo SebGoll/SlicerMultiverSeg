@@ -102,6 +102,9 @@ class ContextLogicTestCase(unittest.TestCase):
         iTruth = logic.loadImage(ressourcePath.joinpath("image_0.png"))
         mTruth = logic.loadImage(ressourcePath.joinpath("mask_0.png"))
 
+        print(i)
+        print(iTruth)
+
         diff = torch.abs(i - iTruth)
         self.assertEqual(torch.max(diff).item(), 0)
 
