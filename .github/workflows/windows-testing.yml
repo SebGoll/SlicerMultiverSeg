@@ -13,6 +13,7 @@ on:
 
 jobs:
   Running-Tests:
+    timeout-minutes: 30
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -26,13 +27,14 @@ jobs:
       - run: |
           ls -la
           realpath .
+          export PYTHONPATH=$(realpath .)
         shell: bash
       - name: Explore sys path
         uses: ./.github/actions/slicer-run-python-script
         with:
           script: './.github/python_scripts/tmpScript.py'
           slicer_exe: ${{ steps.slicer_install.outputs.slicer_executable }}
-          additional_arguments: --no-main-window --no-splash --testing
+          additional_arguments: --no-main-window --no-splash --testing --additional-module-path $(realpath .)
       - name: Install PyTorch module
         uses: ./.github/actions/slicer-run-python-script
         with:
