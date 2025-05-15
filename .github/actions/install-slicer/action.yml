@@ -45,6 +45,8 @@ runs:
       run: |
         brew install expect
         chmod +x "${{ github.action_path }}/macos_installer.exp"
-        MOUNT_POINT=$("${{ github.action_path }}/macos_installer.exp" ${{ steps.installer.outputs.slicer_installer }} | grep -o '/Volumes/[^ ]*')
-        echo $MOUNT_POINT
+        MOUNT_POINT=$("${{ github.action_path }}/macos_installer.exp" ${{ steps.installer.outputs.slicer_installer }} | grep -o '/Volumes/[^ ]*'| tr -d '\r\n')
+        cp -R "$MOUNT_POINT/Slicer.app" /Applications/
+        hdiutil detach "$MOUNT_POINT"
+        ls -la /Applications/Slicer.app/Contents
       shell: bash
