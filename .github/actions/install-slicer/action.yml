@@ -8,7 +8,7 @@ inputs:
 outputs:
   slicer_executable:
     description: Slicer executable
-    value: ${{ steps.slicer_folder.outputs.slicer_folder }}
+    value: ${{ steps.slicer_exe.outputs.executable }}
 
 runs:
   using: composite
@@ -75,8 +75,4 @@ runs:
         elif [ ${{ runner.os }} == "macOS" ]; then
           echo "executable=${{ steps.mac_install.outputs.executable }}" >> $GITHUB_OUTPUT
         fi
-      shell: bash
-    - run: |
-        "${{ steps.slicer_exe.outputs.executable }}" --testing --no-splash --no-main-window
-        "${{ steps.slicer_exe.outputs.executable }}" --testing --no-splash
       shell: bash
