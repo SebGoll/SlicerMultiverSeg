@@ -41,24 +41,11 @@ jobs:
           tests_root_path: './MultiverSeg/Testing/Python'
           tests_name_pattern: '*TestCase.py'
           module_paths: './MultiverSeg'
-  Install-Linux:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        name: Checkout
-      - uses: ./.github/actions/install-slicer
-        id: slicer_install
-        name: Install Slicer
-  Install-MacOS:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-        name: Checkout
-      - uses: ./.github/actions/install-slicer
-        id: slicer_install
-        name: Install Slicer
-  Install-Windows:
-    runs-on: windows-latest
+  Install:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         name: Checkout
