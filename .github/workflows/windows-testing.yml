@@ -25,8 +25,14 @@ jobs:
         name: Install Slicer
       - run: |
           ls -la
-          exit 1
+          realpath .
         shell: bash
+      - name: Explore sys path
+        uses: ./.github/actions/slicer-run-python-script
+        with:
+          script: './.github/python_scripts/tmpScript.py'
+          slicer_exe: ${{ steps.slicer_install.outputs.slicer_executable }}
+          additional_arguments: --no-main-window --no-splash --testing
       - name: Install PyTorch module
         uses: ./.github/actions/slicer-run-python-script
         with:
