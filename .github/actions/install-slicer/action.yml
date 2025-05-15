@@ -38,9 +38,15 @@ runs:
     - name: Download installer
       if: ${{ runner.os == 'Linux' }}
       run: |
+        sudo apt-get install libglu1-mesa libpulse-mainloop-glib0 libnss3 libasound2t64 qt5dxcb-plugin libxcb-util1 xvfb
         echo "File for install: ${{ steps.installer.outputs.slicer_installer }}"
-        tar -xzf "${{ steps.installer.outputs.slicer_installer }}"
-        ls -la
+        mkdir ./Slicer
+        tar xzf "${{ steps.installer.outputs.slicer_installer }}" -C "."
+        folder=$(find "." -maxdepth 1 -name "Slicer*" -type d | head -n1 | xargs realpath)
+        echo "$folder"
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
+        "$folder/Slicer" --testing --no-main-window --no-splash
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
       id: mac_install
