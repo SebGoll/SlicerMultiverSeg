@@ -38,8 +38,9 @@ runs:
     - name: Download installer
       if: ${{ runner.os == 'Linux' }}
       run: |
-        echo "Not implemented yet"
         echo "File for install: ${{ steps.installer.outputs.slicer_installer }}"
+        tar -xzf "${{ steps.installer.outputs.slicer_installer }}"
+        ls -la
       shell: bash
     - if: ${{ runner.os == 'macOS' }}
       id: mac_install
@@ -50,8 +51,4 @@ runs:
         cp -R "$MOUNT_POINT/Slicer.app" /Applications/
         hdiutil detach "$MOUNT_POINT"
         echo "slicer_folder=/Applications/Slicer.app/Contents" >> $GITHUB_OUTPUT
-      shell: bash
-    - if: ${{ runner.os == 'macOS' }}
-      run: |
-        "${{ steps.mac_install.outputs.slicer_folder }}/MacOS/Slicer" --testing --no-main-window
       shell: bash
